@@ -1,0 +1,52 @@
+package com.prokarma.testpoc.dao;
+
+import java.util.ArrayList;
+
+import com.prokarma.testpoc.exceptions.DataErrorException;
+import com.prokarma.testpoc.to.Item;
+
+public interface InventoryDAOI {
+	/**
+	 * This method is used to insert a item object in database
+	 * 
+	 * @param item
+	 * @return ItemsList
+	 */
+	public ArrayList<Item> insertItem(Item item) throws DataErrorException;
+
+	/**
+	 * This method is used to update a item object in database
+	 * 
+	 * @param item
+	 * @return ItemsList
+	 */
+	public ArrayList<Item> updateItem(Item item) throws DataErrorException;
+
+	/**
+	 * This method is used to fetch list of items from the database
+	 * 
+	 * @return ItemsList
+	 */
+	public ArrayList<Item> getAllItems() throws DataErrorException;
+
+	/** This method is used to inserting invalid request to database */
+	boolean logItems(String log);
+
+	/**
+	 * This method is used to check any item is already existed or not
+	 * 
+	 * @param item
+	 * @return <b>true</b> if any item existed <b>return</b> false if any
+	 *         existed item are not existed.
+	 */
+	public boolean isItemExisted(Item item);
+
+	/**
+	 * This method is used to delete the item from data base
+	 * 
+	 * @param item
+	 * @return true if item deleting is success
+	 * @throws DataErrorException
+	 * */
+	public boolean deleteItem(Item item) throws DataErrorException;
+}

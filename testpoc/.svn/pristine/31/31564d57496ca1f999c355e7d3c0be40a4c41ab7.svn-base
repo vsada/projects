@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Home - Inventory management System</title>
+<style type="text/css">
+h2, h3, tr th {
+	text-align: center;
+	margin: auto;
+}
+</style>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<script src="./js/inventory.js"></script>
+</head>
+<body class='container' ng-app="inventory">
+	<div id='maindiv' class='row'>
+		<div id='list_items_div' class='col-md-6'
+			ng-controller='listItemsController as inventory'>
+			<h3>List of Items</h3>
+			<div ng-show='{{inventory.list.length > 0 }}'>
+				<input type="text" ng-model='searchText' class="form-control"
+					placeholder="Search">
+				<table border="1" class="table">
+					<tr>
+						<th>Item Name</th>
+						<th>Item Count</th>
+					</tr>
+					<tr ng-repeat='item in inventory.list | filter:searchText'>
+						<td>{{item.item_name}}</td>
+						<td>{{item.item_count}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id='add_items_div' class='col-md-6'>
+			<h3>Add Items</h3>
+			<div class='row'>
+				<form action="" novalidate="novalidate">
+					<div class='row'>
+						<span>Item Name</span> <input type='text' id='itemName' required>
+					</div>
+					<div class='row'>
+						<span>Item Count</span> <input type='text' id='itemCount' required>
+					</div>
+					<div class='row'>
+						<span>Item Description</span> <input type='textarea' id='itemDesc'
+							required>
+					</div>
+					<input type="submit" class="" value='Submit'>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

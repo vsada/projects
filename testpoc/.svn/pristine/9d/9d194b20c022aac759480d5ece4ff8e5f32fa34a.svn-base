@@ -1,0 +1,82 @@
+/**
+ * This JS file is used to load data from Inventory Service
+ */
+(function() {
+	var app = angular.module("inventory", []);
+	/**
+	 * This listItemsController is used to fetch items from service using rest
+	 * call.
+	 */
+	app
+			.controller(
+					'listItemsController',
+					[
+							'$http',
+							function($http) {
+								var inventory = this;
+								inventory.list = [];
+								$http
+										.post(
+												'http://localhost:8085/rest/item/getAllItems')
+										.success(
+												function(data, status, headers,
+														config) {
+													inventory.list = xmlToItems(data);
+
+													/*if (inventory.list.length > 0) {
+														// alert(this.list.length);
+													} else {
+
+													}*/
+												})
+										.error(
+												function(data, status, headers,
+														config) {
+													alert("Sorry, Unable to fetch items list, Please try after some time.");
+												})
+							} ]);
+	/**
+	 * This function is used to covert items list XML text to items JSON object.
+	 * 
+	 * @returns items JSON Array
+	 */
+	function xmlToItems(data) {
+		if (window.DOMParser) {
+			parser = new DOMParser();
+			xmlDoc = parser.parseFromString(data, "text/xml");
+		} else // Internet Explorer
+		{
+			xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+			xmlDoc.async = false;
+			xmlDoc.loadXML(txt);
+		}
+		var items = xmlDoc.getElementsByTagName('item');
+		var itemsArray = [];
+		for (i = 0; i < items.length; i++) {
+			var item = {
+				item_name : '',
+				item_count : '',
+				item_desc : '',
+				item_last_updated_tmstmp : ''
+			};
+			item.item_name = items[i].getElementsByTagName("item_name")[0].childNodes[0].nodeValue;
+			item.item_count = items[i].getElementsByTagName("item_count")[0].childNodes[0].nodeValue;
+			item.item_desc = items[i].getElementsByTagName("item_desc")[0].childNodes[0].nodeValue;
+			item.item_last_updated_tmstmp = items[i]
+					.getElementsByTagName("item_last_updated_tmstmp")[0].childNodes[0].nodeValue;
+			itemsArray.push(item);
+		}
+		return itemsArray;
+	}
+
+	/**
+	 * 
+	 */
+	function displayItems(itemsJSONArray) {
+		var tableStr = '<table><th><td></td></th>';
+		for ( var v in itemsJSONArray) {
+
+		}
+
+	}
+})();

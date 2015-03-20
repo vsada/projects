@@ -1,0 +1,6 @@
+package com.prokarma.testpoc.dao;
+
+public class DataSourceImpl {
+	private javax.sql.DataSource dataSource;
+
+}
