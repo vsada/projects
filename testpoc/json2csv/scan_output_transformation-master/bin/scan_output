@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'scan_output_transformation/scan_output_transformation'
+
+OPTIONAL_PARAMS = ["--output-dir", "--scan-dir", "--extract-dir", "--mapping-file-path"]
+
+def hash_optional_params(params)
+  optional_args = {}
+  params.each do |param|
+    splited = param.split("=")
+    optional_args[splited[0]] = splited[1]
+  end
+
+  optional_args
+end
+
+
+def verify_params(optional)
+  optional.each_key do |key|
+    unless OPTIONAL_PARAMS.include?(key)
+      puts "Invalid param #{key}"
+      exit
+    end
+  end
+end
+
+client_name = ARGV[0]
+client_prefix = ARGV[1]
+optional_args = hash_optional_params(ARGV[2..-1])
+verify_params(optional_args)
+
+output_dir = optional_args["--output-dir"] || "./"
+scan_dir = optional_args["--scan-dir"] || nil
+extract_dir = optional_args["--extract-dir"] || nil
+map_file_path = optional_args["--mapping-file-path"] || nil
+
+
+ScanOutputTransformation.to_csv(client_name, client_prefix, output_dir: output_dir, scan_location: scan_dir,
+                                                            extract_dir: extract_dir, map_file: map_file_path)
